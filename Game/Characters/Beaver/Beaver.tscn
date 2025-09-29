@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dndbyj7sy4708"]
+
+[ext_resource type="Script" uid="uid://6hwm278c66pu" path="res://Game/Characters/Beaver/Beaver.cs" id="1_hoxay"]
+[ext_resource type="ArrayMesh" uid="uid://b2rqptrj8toob" path="res://Game/Characters/Beaver/Models/Beaver.obj" id="3_gqx88"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hoxay"]
+size = Vector3(1.53027, 1.14648, 2.13892)
+
+[node name="Beaver" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.423336, 0.250091, -0.197755)
+script = ExtResource("1_hoxay")
+
+[node name="BeaverMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.7, 0, 0, 0, 0.5, -0.417092, -0.646085, 0)
+mesh = ExtResource("3_gqx88")
+
+[node name="BeaverCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.615, 0, 0, 0, 0.7, -0.392558, -0.245349, 0.0891056)
+shape = SubResource("BoxShape3D_hoxay")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.894591, 0.446885, 0, -0.446885, 0.894591, 0, 0.656824, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0564, -0.0917926, 1.79791)
+fov = 75.1603

@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\GameProjects\\OldBear\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E19D9330-2169-4DD0-BFEA-08DDAE8A6AE8}|OldBear.csproj|d:\\projects\\gameprojects\\oldbear\\game\\characters\\beaver\\beaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E19D9330-2169-4DD0-BFEA-08DDAE8A6AE8}|OldBear.csproj|solutionrelative:game\\characters\\beaver\\beaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Beaver.cs",
+              "DocumentMoniker": "D:\\Projects\\GameProjects\\OldBear\\Game\\Characters\\Beaver\\Beaver.cs",
+              "RelativeDocumentMoniker": "Game\\Characters\\Beaver\\Beaver.cs",
+              "ToolTip": "D:\\Projects\\GameProjects\\OldBear\\Game\\Characters\\Beaver\\Beaver.cs",
+              "RelativeToolTip": "Game\\Characters\\Beaver\\Beaver.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-21T17:32:21.045Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
