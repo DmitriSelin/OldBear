@@ -2,43 +2,63 @@ using Godot;
 
 public partial class Beaver : CharacterBody3D
 {
-	public const float Speed = 5.0f;
-	public const float JumpVelocity = 4.5f;
+	private Node3D _pivot;
+	private Camera3D _camera;
+	private float _cameraAngle = 0F;
+    private float _mouseSensitivity = 0.1F;
+	private const float _speed = 5.0f;
+	private const float _jumpVelocity = 4.5f;
+
+	public override void _Ready()
+	{
+		_pivot = GetNode<Node3D>("Pivot");
+		_camera = GetNode<Camera3D>("Pivot/Camera");
+    }
+
+	public override void _Process(double delta)
+	{
+		if (Input.IsActionPressed("ui_cancel"))
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector3 velocity = Velocity;
-
-		//Add the gravity.
-		if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
-
-		// Handle Jump.
-		bool isSpaceClicked = Input.IsActionJustPressed("ui_accept");
-		bool isOnFloor = IsOnFloor();
-		if (isSpaceClicked && isOnFloor)
-		{
-			velocity.Y = JumpVelocity;
-		}
-
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-		if (direction != Vector3.Zero)
-		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();
+		Walk();
 	}
+
+	public override void _Input(InputEvent inputEvent)
+    {
+        if (inputEvent is not InputEventMouseMotion motion)
+			return;
+
+        _pivot.RotateY(Mathf.DegToRad(-motion.Relative.X * _mouseSensitivity));
+        float change = -motion.Relative.Y * _mouseSensitivity;
+
+        if (!((change + _cameraAngle) < 90F) || !((change + _cameraAngle) > -90F))
+			return;
+        
+        _camera.RotateX(Mathf.DegToRad(change));
+        _cameraAngle += change;
+    }
+
+	private void Walk()
+    {
+        Vector3 direction = new();
+        Basis aim = _camera.GlobalTransform.Basis;
+
+        if (Input.IsActionPressed("ui_up"))
+            direction -= aim.Z;
+        
+        if (Input.IsActionPressed("ui_down"))
+            direction += aim.Z;
+        
+        if (Input.IsActionPressed("ui_left"))
+            direction -= aim.X;
+
+        if (Input.IsActionPressed("ui_right"))
+            direction += aim.X;
+
+        Velocity = direction.Normalized() * _speed;
+        MoveAndSlide();
+    }
 }

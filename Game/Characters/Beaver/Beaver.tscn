@@ -21,6 +21,6 @@ shape = SubResource("BoxShape3D_hoxay")
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.894591, 0.446885, 0, -0.446885, 0.894591, 0, 0.656824, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Pivot"]
+[node name="Camera" type="Camera3D" parent="Pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0564, -0.0917926, 1.79791)
 fov = 75.1603
