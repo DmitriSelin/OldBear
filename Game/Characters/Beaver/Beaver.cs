@@ -2,63 +2,68 @@ using Godot;
 
 public partial class Beaver : CharacterBody3D
 {
-	private Node3D _pivot;
-	private Camera3D _camera;
-	private float _cameraAngle = 0F;
-    private float _mouseSensitivity = 0.1F;
-	private const float _speed = 5.0f;
-	private const float _jumpVelocity = 4.5f;
+    private Node3D _pivot;
+    private Camera3D _camera;
+    [Export] public float Speed = 5.0f;
+    [Export] public float JumpVelocity = 4.5f;
+    [Export] public float MouseSensitivity = 0.002f;
+    [Export] public float CameraPitchLimit = 1.5f;
+    public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
-	public override void _Ready()
-	{
-		_pivot = GetNode<Node3D>("Pivot");
-		_camera = GetNode<Camera3D>("Pivot/Camera");
+    public override void _Ready()
+    {
+        _pivot = GetNode<Node3D>("Pivot");
+        _camera = GetNode<Camera3D>("Pivot/Camera");
+        Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 
-	public override void _Process(double delta)
-	{
-		if (Input.IsActionPressed("ui_cancel"))
-            Input.MouseMode = Input.MouseModeEnum.Visible;
-	}
-
-	public override void _PhysicsProcess(double delta)
-	{
-		Walk();
-	}
-
-	public override void _Input(InputEvent inputEvent)
+    public override void _Input(InputEvent inputEvent)
     {
-        if (inputEvent is not InputEventMouseMotion motion)
-			return;
+        if (inputEvent is InputEventMouseMotion eventMouseMotion)
+        {
+            // Rotate player left/right
+            RotateY(-eventMouseMotion.Relative.X * MouseSensitivity);
 
-        _pivot.RotateY(Mathf.DegToRad(-motion.Relative.X * _mouseSensitivity));
-        float change = -motion.Relative.Y * _mouseSensitivity;
-
-        if (!((change + _cameraAngle) < 90F) || !((change + _cameraAngle) > -90F))
-			return;
-        
-        _camera.RotateX(Mathf.DegToRad(change));
-        _cameraAngle += change;
+            // Rotate camera up/down
+            float newPitch = _pivot.Rotation.X - eventMouseMotion.Relative.Y * MouseSensitivity;
+            newPitch = Mathf.Clamp(newPitch, -CameraPitchLimit, CameraPitchLimit);
+            _pivot.Rotation = new Vector3(newPitch, _pivot.Rotation.Y, _pivot.Rotation.Z);
+        }
     }
 
-	private void Walk()
+    public override void _PhysicsProcess(double delta)
     {
-        Vector3 direction = new();
-        Basis aim = _camera.GlobalTransform.Basis;
+        Vector3 velocity = Velocity;
 
-        if (Input.IsActionPressed("ui_up"))
-            direction -= aim.Z;
-        
-        if (Input.IsActionPressed("ui_down"))
-            direction += aim.Z;
-        
-        if (Input.IsActionPressed("ui_left"))
-            direction -= aim.X;
+        // Add gravity
+        if (!IsOnFloor())
+        {
+            velocity.Y -= gravity * (float)delta;
+        }
 
-        if (Input.IsActionPressed("ui_right"))
-            direction += aim.X;
+        // Handle Jump
+        if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
+        {
+            velocity.Y = JumpVelocity;
+        }
 
-        Velocity = direction.Normalized() * _speed;
+        // Get input direction
+        Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+        Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+
+        // Apply movement
+        if (direction != Vector3.Zero)
+        {
+            velocity.X = direction.X * Speed;
+            velocity.Z = direction.Z * Speed;
+        }
+        else
+        {
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+        }
+
+        Velocity = velocity;
         MoveAndSlide();
     }
 }
