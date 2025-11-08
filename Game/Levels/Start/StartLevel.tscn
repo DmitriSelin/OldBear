@@ -39,7 +39,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BasePlatform"]
-transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0.0113547, -0.011007, 0.00518179)
 shape = SubResource("BoxShape3D_ey4sj")
 
 [node name="Beaver" parent="." instance=ExtResource("1_0mek1")]
@@ -48,21 +48,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20714, 4.20084)
 [node name="Node3D" type="Node3D" parent="."]
 
 [node name="RigidBody3D" type="RigidBody3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.51665, -7.10567)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.11028, 1.11013)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/RigidBody3D"]
 mesh = SubResource("BoxMesh_ey4sj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/RigidBody3D"]
-shape = SubResource("BoxShape3D_4af2w")
-
-[node name="RigidBody3D2" type="RigidBody3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.453942, 3.00959, -7.10567)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/RigidBody3D2"]
-mesh = SubResource("BoxMesh_ey4sj")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/RigidBody3D2"]
 shape = SubResource("BoxShape3D_4af2w")
 
 [node name="BasePlatformMesh" type="MeshInstance3D" parent="."]

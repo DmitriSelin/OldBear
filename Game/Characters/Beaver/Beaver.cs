@@ -4,10 +4,16 @@ public partial class Beaver : CharacterBody3D
 {
     private Node3D _pivot;
     private Camera3D _camera;
-    [Export] public float Speed = 5.0f;
-    [Export] public float JumpVelocity = 4.5f;
-    [Export] public float MouseSensitivity = 0.002f;
-    [Export] public float CameraPitchLimit = 1.5f;
+
+    [Export]
+    public float Speed = 5.0f;
+    [Export]
+    public float JumpVelocity = 4.5f;
+    [Export]
+    public float MouseSensitivity = 0.002f;
+    [Export]
+    public float CameraPitchLimit = 1.5f;
+
     public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
     public override void _Ready()
