@@ -17,14 +17,14 @@ glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ey4sj"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_ey4sj"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_4af2w"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4fe7s"]
 albedo_color = Color(0.34902, 0.470588, 0.156863, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0mek1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ey4sj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4af2w"]
 
 [node name="StartLevel" type="Node3D"]
 
@@ -42,10 +42,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0.0113547, -0.011007, 0.00518179)
 shape = SubResource("BoxShape3D_ey4sj")
 
+[node name="BasePlatformMesh" type="MeshInstance3D" parent="BasePlatform"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_4fe7s")
+mesh = SubResource("BoxMesh_0mek1")
+
 [node name="Beaver" parent="." instance=ExtResource("1_0mek1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20714, 4.20084)
 
 [node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.60253215, 0, 0)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.11028, 1.11013)
@@ -55,9 +61,3 @@ mesh = SubResource("BoxMesh_ey4sj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/RigidBody3D"]
 shape = SubResource("BoxShape3D_4af2w")
-
-[node name="BasePlatformMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, -0.5, 0)
-material_override = SubResource("StandardMaterial3D_4fe7s")
-mesh = SubResource("BoxMesh_0mek1")
-skeleton = NodePath("../BasePlatform")
