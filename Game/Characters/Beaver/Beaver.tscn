@@ -24,3 +24,6 @@ transform = Transform3D(1, 0, 0, 0, 0.894591, 0.446885, 0, -0.446885, 0.894591, 
 [node name="Camera" type="Camera3D" parent="Pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0564, -0.0917926, 1.79791)
 fov = 75.1603
+
+[node name="HoldRayCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1.7796664e-08, -1, 0, 0.4071402, -4.371139e-08, -0.39758444, -0.16767669, -0.58720136)

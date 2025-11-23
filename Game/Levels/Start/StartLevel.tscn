@@ -48,7 +48,7 @@ material_override = SubResource("StandardMaterial3D_4fe7s")
 mesh = SubResource("BoxMesh_0mek1")
 
 [node name="Beaver" parent="." instance=ExtResource("1_0mek1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20714, 4.20084)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8159218, 4.20084)
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.60253215, 0, 0)

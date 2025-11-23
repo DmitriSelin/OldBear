@@ -4,15 +4,25 @@ public partial class Beaver : CharacterBody3D
 {
     private Node3D _pivot;
     private Camera3D _camera;
+    private RayCast3D _holdRayCast;
 
+    [ExportGroup("Player Settings")]
     [Export]
     public float Speed = 5.0f;
     [Export]
     public float JumpVelocity = 4.5f;
     [Export]
     public float MouseSensitivity = 0.002f;
+
+    [ExportGroup("Camera Settings")]
     [Export]
-    public float CameraPitchLimit = 1.5f;
+    public float CameraMinPitch = -20.0f;
+    [Export]
+    public float CameraMaxPitch = 20.0f;
+
+
+    [Signal]
+    public delegate void InteractObjectEventHandler(GodotObject obj);
 
     public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
@@ -20,7 +30,9 @@ public partial class Beaver : CharacterBody3D
     {
         _pivot = GetNode<Node3D>("Pivot");
         _camera = GetNode<Camera3D>("Pivot/Camera");
+        _holdRayCast = GetNode<RayCast3D>("HoldRayCast");
         Input.MouseMode = Input.MouseModeEnum.Captured;
+        AddToGroup("Player");
     }
 
     public override void _Input(InputEvent inputEvent)
@@ -30,10 +42,28 @@ public partial class Beaver : CharacterBody3D
             // Rotate player left/right
             RotateY(-eventMouseMotion.Relative.X * MouseSensitivity);
 
-            // Rotate camera up/down
-            float newPitch = _pivot.Rotation.X - eventMouseMotion.Relative.Y * MouseSensitivity;
-            newPitch = Mathf.Clamp(newPitch, -CameraPitchLimit, CameraPitchLimit);
+            float currentPitch = _pivot.Rotation.X;
+            float newPitch = currentPitch - eventMouseMotion.Relative.Y * MouseSensitivity;
+
+            float minPitchRad = Mathf.DegToRad(CameraMinPitch);
+            float maxPitchRad = Mathf.DegToRad(CameraMaxPitch);
+            newPitch = Mathf.Clamp(newPitch, minPitchRad, maxPitchRad);
             _pivot.Rotation = new Vector3(newPitch, _pivot.Rotation.Y, _pivot.Rotation.Z);
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        bool isColliding = _holdRayCast.IsColliding();
+
+        if (isColliding)
+        {
+            GodotObject collider = _holdRayCast.GetCollider();
+            EmitSignal(SignalName.InteractObject, collider);
+        }
+        else
+        {
+            EmitSignal(SignalName.InteractObject, null);
         }
     }
 
