@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public partial class Beaver : CharacterBody3D
 {
@@ -19,7 +20,8 @@ public partial class Beaver : CharacterBody3D
     public float CameraMinPitch = -20.0f;
     [Export]
     public float CameraMaxPitch = 20.0f;
-
+    [Export]
+    public float RotationSpeed = 10f;
 
     [Signal]
     public delegate void InteractObjectEventHandler(GodotObject obj);
@@ -68,6 +70,11 @@ public partial class Beaver : CharacterBody3D
     }
 
     public override void _PhysicsProcess(double delta)
+    {
+        HandleMovement(delta);
+    }
+
+    private void HandleMovement(double delta)
     {
         Vector3 velocity = Velocity;
 
